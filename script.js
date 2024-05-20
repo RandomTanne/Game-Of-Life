@@ -2,13 +2,14 @@ let board = [];
 const directions = [
     [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]
 ];
-const size = 100;
-const pixleSize = 1000/size;
+const pixelNumber = 100;
+const canvasSize = 1000;
+const pixelSize = canvasSize/pixelNumber;
 
 function createBoard() {
-    for(let i = 0; i < size; i++) {
-        arr = [];
-        for(let j = 0; j < size; j++) {
+    for(let i = 0; i < pixelNumber; i++) {
+        let arr = [];
+        for(let j = 0; j < pixelNumber; j++) {
             arr.push((Math.floor(Math.random() * 2)))
         }
         board.push(arr);
@@ -23,9 +24,9 @@ function draw() {
     for(let i = 0; i < board.length; i++) {
         for(let j = 0; j < board[i].length; j++) {
             if(board[i][j] == 0) {
-                ctx.clearRect(i*pixleSize, j*pixleSize, pixleSize, pixleSize);
+                ctx.clearRect(i*pixelSize, j*pixelSize, pixelSize, pixelSize);
             } else {
-                ctx.fillRect(i*pixleSize, j*pixleSize, pixleSize, pixleSize);
+                ctx.fillRect(i*pixelSize, j*pixelSize, pixelSize, pixelSize);
             }
         }
     }
@@ -36,7 +37,7 @@ function simulation() {
     setInterval(() => {
         for(let i = 0; i < board.length; i++) {
             for(let j = 0; j < board[i].length; j++) {
-                neighbours = 0;
+                let neighbours = 0;
                 for(const direction of directions) {
                     const x = i + direction[0];
                     const y = j + direction[1];
@@ -57,6 +58,9 @@ function simulation() {
 }
 
 function setup() {
+    const canvas = document.getElementById("canvas");
+    canvas.height = canvasSize;
+    canvas.width = canvasSize;
     createBoard();
     simulation();
 }

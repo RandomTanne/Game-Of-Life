@@ -2,8 +2,10 @@ let board = [];
 const directions = [
     [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]
 ];
+const size = 100;
+const pixleSize = 1000/size;
 
-function createBoard(size) {
+function createBoard() {
     for(let i = 0; i < size; i++) {
         arr = [];
         for(let j = 0; j < size; j++) {
@@ -14,15 +16,16 @@ function createBoard(size) {
 }
 
 function draw() {
-    ctx = canvas.getContext("2d");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();    
     for(let i = 0; i < board.length; i++) {
         for(let j = 0; j < board[i].length; j++) {
             if(board[i][j] == 0) {
-                ctx.clearRect(i*10, j*10, 10, 10);
+                ctx.clearRect(i*pixleSize, j*pixleSize, pixleSize, pixleSize);
             } else {
-                ctx.fillRect(i*10, j*10, 10, 10);
+                ctx.fillRect(i*pixleSize, j*pixleSize, pixleSize, pixleSize);
             }
         }
     }
@@ -54,9 +57,7 @@ function simulation() {
 }
 
 function setup() {
-    size = 500;
-    createBoard(size);
-    canvas = document.getElementById("canvas");
+    createBoard();
     simulation();
 }
 

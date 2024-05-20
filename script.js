@@ -2,6 +2,7 @@ let board = [];
 const directions = [
     [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]
 ];
+const speed = 1;
 const pixelNumber = 100;
 const canvasSize = 1000;
 const pixelSize = canvasSize/pixelNumber;
@@ -54,7 +55,7 @@ function simulation() {
             }    
         }
         draw();
-    }, 1)
+    }, speed)
 }
 
 function setup() {

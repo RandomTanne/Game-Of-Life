@@ -1,7 +1,9 @@
-board = [];
+let board = [];
+const directions = [
+    [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]
+];
 
 function createBoard(size) {
-    board = [];
     for(let i = 0; i < size; i++) {
         arr = [];
         for(let j = 0; j < size; j++) {
@@ -9,7 +11,6 @@ function createBoard(size) {
         }
         board.push(arr);
     }
-    board = board;
 }
 
 function draw() {
@@ -30,23 +31,21 @@ function draw() {
 
 function simulation() {
     setInterval(() => {
-        for(let i = 1; i < board.length - 1; i++) {
-            for(let j = 1; j < board[i].length - 1; j++) {
+        for(let i = 0; i < board.length; i++) {
+            for(let j = 0; j < board[i].length; j++) {
                 neighbours = 0;
-                neighbours += board[i-1][j-1];
-                neighbours += board[i-1][j];
-                neighbours += board[i-1][j+1];
-                neighbours += board[i][j-1];
-                neighbours += board[i][j+1];
-                neighbours += board[i+1][j-1];
-                neighbours += board[i+1][j];
-                neighbours += board[i][j+1];
-                if(neighbours < 2) {
+                for(const direction of directions) {
+                    const x = i + direction[0];
+                    const y = j + direction[1];
+
+                    if(x >= 0 && x < board.length && y >= 0 && y < board[i].length) {
+                        neighbours += board[x][y];
+                    }
+                }
+                if(neighbours < 2 || neighbours > 3) {
                     board[i][j] = 0;
                 } else if(neighbours == 3) {
                     board[i][j] = 1;
-                } else if(neighbours > 3) {
-                    board[i][j] = 0;
                 }
             }    
         }
@@ -55,7 +54,7 @@ function simulation() {
 }
 
 function setup() {
-    size = 300;
+    size = 500;
     createBoard(size);
     canvas = document.getElementById("canvas");
     simulation();

@@ -2,7 +2,7 @@ let board = [];
 const directions = [
     [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]
 ];
-const speed = 1;
+const speed = 100;
 const pixelNumber = 100;
 const canvasSize = 1000;
 const pixelSize = canvasSize/pixelNumber;
@@ -36,6 +36,7 @@ function draw() {
 
 function simulation() {
     setInterval(() => {
+        const newBoard = board.map(arr => [...arr]);
         for(let i = 0; i < board.length; i++) {
             for(let j = 0; j < board[i].length; j++) {
                 let neighbours = 0;
@@ -47,13 +48,14 @@ function simulation() {
                         neighbours += board[x][y];
                     }
                 }
-                if(neighbours < 2 || neighbours > 3) {
-                    board[i][j] = 0;
-                } else if(neighbours == 3) {
-                    board[i][j] = 1;
+                if (board[i][j] == 1 && (neighbours < 2 || neighbours > 3)) {
+                    newBoard[i][j] = 0;
+                } else if (board[i][j] == 0 && neighbours == 3) {
+                    newBoard[i][j] = 1;
                 }
             }    
         }
+        board = newBoard;
         draw();
     }, speed)
 }
